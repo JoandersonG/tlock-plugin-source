@@ -572,6 +572,7 @@ public class YaoqiangXMLParser {
         StringBuilder piADLcode = new StringBuilder();
         //Gerar código navegando por elementos:
         ArrayList<Component> alreadyRead = new ArrayList<>();
+        int connCont = 1;
         for (Participant p : participants) {
             for (int i = 0; i < p.getAllConnections().size(); i++) {
                 Connection conn = p.getAllConnections().get(i);
@@ -583,7 +584,7 @@ public class YaoqiangXMLParser {
                     Component comp = getComponent(conn.getTaskId());
                     ParticipantTask pt = participantTasks.get(participantTasks.indexOf(newPart));
                     Connector c = new Connector(
-                            "Msg" + (i+1) + ((comp == null) ? "" : comp.getComponentName()) + pt.getComponentName(),
+                            "Conexao_" + connCont++,
                             Connector.getValidId(),
                             comp,
                             pt
@@ -597,7 +598,7 @@ public class YaoqiangXMLParser {
                     ParticipantTask pt = participantTasks.get(participantTasks.indexOf(newPart));
                     Component comp = getComponent(conn.getTaskId());
                     Connector c = new Connector(
-                            "Msg" + (i+1) + ((comp == null) ? "" : comp.getComponentName()) + pt.getComponentName(),
+                    		"Conexao_" + connCont++,
                             Connector.getValidId(),
                             pt,
                             comp
