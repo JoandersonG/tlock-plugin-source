@@ -307,7 +307,8 @@ public class YaoqiangXMLParser {
             if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element gateway = (Element) node;
                 String originalName = gateway.getAttribute("name");
-                String componentName = getUniqueComponentName(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
+                //String componentName = getUniqueComponentName(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
+                String componentName = "Gateway_" + (i + 1);
                 String id = gateway.getAttribute("id");
                 ArrayList<String> incomings = new ArrayList<>();
                 ArrayList<String> outgoings = new ArrayList<>();
