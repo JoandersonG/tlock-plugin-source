@@ -42,7 +42,7 @@ public class DeadlockTestHandler extends AbstractHandler {
 		
 		MessageDialog.openInformation(
 				window.getShell(),
-				"Let's test deadlocks!",
+				"Teste de ocorrência de deadlocks",
 				result);
 
 		return null;
@@ -71,7 +71,7 @@ public class DeadlockTestHandler extends AbstractHandler {
 
                 Component element = testExecuteResult(result);
                 if (element == null) {
-                    return "Nenhum deadlock ocorreu, podes crer mesmo";
+                    return "Nenhum deadlock foi detectado no modelo";
                 }
                 for (int i = 0; i < 15; i++) {
                     //tries again for making sure it's really a deadlock
@@ -83,14 +83,14 @@ public class DeadlockTestHandler extends AbstractHandler {
                     result.remove(result.size() - 1);
                     element = testExecuteResult(result);
                     if (element == null) {
-                        return "Nenhum deadlock ocorreu, podes crer mesmo!";
+                        return "Nenhum deadlock foi detectado no modelo";
                     }
                 }
-                return "Um deadlock ocorreu, podes crer, e aconteceu em " + element.getOriginalName();
+                return "Um deadlock foi identificado no seguinte elemento: " + element.getOriginalName();
             }
         } else {
             //no deadlock occurred, just say that to user
-            return "Nenhum deadlock ocorreu, podes crer";
+            return "Nenhum deadlock foi detectado no modelo";
         }
     }
 
