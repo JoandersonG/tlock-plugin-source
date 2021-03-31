@@ -42,7 +42,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="com.joanderson.tlock.handlers.SampleHandler"
+            class="com.joanderson.tlock.handlers.PiAdlGenerationHandler"
             commandId="com.joanderson.tlock.commands.generatepiadl">
       </handler>
       <handler
@@ -54,7 +54,7 @@
             commandId="com.joanderson.tlock.commands.generatetestdeadlock">
       </handler>
       <handler
-            class="com.joanderson.tlock.handlers.SampleHandler"
+            class="com.joanderson.tlock.handlers.PiAdlGenerationHandler"
             commandId="BPMNtoPiADL.commands.sampleCommand">
       </handler>
    </extension>

@@ -52,7 +52,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class SampleHandler extends AbstractHandler {
+public class PiAdlGenerationHandler extends AbstractHandler {
 	
 	public static String savingPiADLPath;
 	private YaoqiangXMLParser parser;

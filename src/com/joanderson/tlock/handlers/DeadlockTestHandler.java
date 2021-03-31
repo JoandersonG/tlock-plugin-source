@@ -34,9 +34,9 @@ public class DeadlockTestHandler extends AbstractHandler {
 			return null;
 		}
 		
-		String generatedFolderPath = SampleHandler.savingPiADLPath;
+		String generatedFolderPath = PiAdlGenerationHandler.savingPiADLPath;
 		generatedFolderPath = generatedFolderPath.substring(0, generatedFolderPath.lastIndexOf("/"));
-		generatedFolderPath = generatedFolderPath + "/src/" + getFileNameFromPath(SampleHandler.savingPiADLPath); 
+		generatedFolderPath = generatedFolderPath + "/src/" + getFileNameFromPath(PiAdlGenerationHandler.savingPiADLPath); 
 		
 		String result = testDeadlock(generatedFolderPath);
 		

@@ -44,7 +44,7 @@ public class GenerateAndTestHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
-		new SampleHandler().execute(event);
+		new PiAdlGenerationHandler().execute(event);
 		//TODO: executar em outra thread e esperar resultado, certo?
 		new DeadlockTestHandler().execute(event);
 		
@@ -58,9 +58,9 @@ public class GenerateAndTestHandler extends AbstractHandler {
 //		
 //		String projectName = getFileNameFromPath(bpmnFilePath);
 //		IProject currentProject = createAndOpenNewProject(projectName);
-//		SampleHandler.savingPiADLPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/" +  projectName  + "/" + projectName + ".piadl";
+//		PiAdlGenerationHandler.savingPiADLPath = ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "/" +  projectName  + "/" + projectName + ".piadl";
 //		
-//		createPiADLFile(SampleHandler.savingPiADLPath, contentForPiAdlFile);
+//		createPiADLFile(PiAdlGenerationHandler.savingPiADLPath, contentForPiAdlFile);
 //		
 //		// refreshing project files
 //		try {
@@ -69,7 +69,7 @@ public class GenerateAndTestHandler extends AbstractHandler {
 //			e.printStackTrace();
 //		}
 //		
-//		openEditor(window.getActivePage(), getIFileFromPath(SampleHandler.savingPiADLPath));
+//		openEditor(window.getActivePage(), getIFileFromPath(PiAdlGenerationHandler.savingPiADLPath));
 //		System.out.println("Current directory: " + ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
 //		
 //		
@@ -86,9 +86,9 @@ public class GenerateAndTestHandler extends AbstractHandler {
 //			return null;
 //		}
 //		
-//		String generatedFolderPath = SampleHandler.savingPiADLPath;
+//		String generatedFolderPath = PiAdlGenerationHandler.savingPiADLPath;
 //		generatedFolderPath = generatedFolderPath.substring(0, generatedFolderPath.lastIndexOf("/"));
-//		generatedFolderPath = generatedFolderPath + "/src/" + getFileNameFromPath(SampleHandler.savingPiADLPath); 
+//		generatedFolderPath = generatedFolderPath + "/src/" + getFileNameFromPath(PiAdlGenerationHandler.savingPiADLPath); 
 //		
 //		String result = testDeadlock(generatedFolderPath);
 //		
