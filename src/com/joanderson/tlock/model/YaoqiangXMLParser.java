@@ -297,10 +297,11 @@ public class YaoqiangXMLParser {
     }
 
     private void parseGateways(Document doc) {
-        parseGatewayByType(doc, "exclusiveGateway");
-        parseGatewayByType(doc, "parallelGateway");
+    	int gatewayCount = 1;
+        gatewayCount = parseGatewayByType(doc, "exclusiveGateway", gatewayCount);
+        parseGatewayByType(doc, "parallelGateway", gatewayCount);
     }
-    private void parseGatewayByType(Document doc, String gatewayType) {
+    private int parseGatewayByType(Document doc, String gatewayType, int gatewayCount) {
         NodeList gatewayList = doc.getElementsByTagName(gatewayType);
         for (int i = 0; i < gatewayList.getLength(); i++) {
             Node node = gatewayList.item(i);
@@ -308,7 +309,7 @@ public class YaoqiangXMLParser {
                 Element gateway = (Element) node;
                 String originalName = gateway.getAttribute("name");
                 //String componentName = getUniqueComponentName(originalName.equals("")? "Gateway" : originalName, String.valueOf(i + 1));
-                String componentName = "Gateway_" + (i + 1);
+                String componentName = "Gateway_" + gatewayCount++;
                 String id = gateway.getAttribute("id");
                 ArrayList<String> incomings = new ArrayList<>();
                 ArrayList<String> outgoings = new ArrayList<>();
@@ -351,6 +352,7 @@ public class YaoqiangXMLParser {
                 }
             }
         }
+		return gatewayCount;
     }
 
     public static String removerAcentos(String str) {
