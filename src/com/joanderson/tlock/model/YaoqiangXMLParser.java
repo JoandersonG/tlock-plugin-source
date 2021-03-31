@@ -604,10 +604,6 @@ public class YaoqiangXMLParser {
                     );
                     connectors.add(c);
                 }
-
-
-                //então adiciono o conector a uma lista de conectores, ou só add o piADL deles.
-
             }
         }
         for (StartEvent s : startEvents) {
@@ -692,7 +688,6 @@ public class YaoqiangXMLParser {
                 us.get(i).setFromPort(se.getOutgoings().get(i));
             }
         }
-        //TODO: continue from here
         for (ParticipantTask pt : participantTasks) {
             ArrayList<Unification> us = findUnificationByFrom(unifications, pt);
 
@@ -702,30 +697,13 @@ public class YaoqiangXMLParser {
             ArrayList <Connection> froms = pt.getParticipant().getAllFromConnections();
             for (int i = 0; i < froms.size() && i < us.size(); i++) {
                 Unification u = us.get(i);
-//            }
-//            for (Unification u : us) {
                 u.setFromPort(froms.get(i).getName());
-
-//                u.setFromPort(getConnectorByFrom(pt).g);
-//                for (Connection c : pt.getParticipant().getAllConnections()) {
-//                    if (c.getTaskId().equals())
-//                }
-
-//                if (u.getFromPort() == null || u.getFromPort().equals("")) {
-//                    u.setFromPort(pt.getParticipant().getConnectionName(u.getToComp().getId(), Connection.Type.IN));
-//                }
-
-                //u.setFromPort(pt.getParticipant().getConnectionName(u.getToComp().getId(), Connection.Type.OUT));
             }
             us = findUnificationByTo(unifications,pt);
             for (Unification u : us) {
                 if (u.getToPort() == null || u.getToPort().equals("")) {
                     u.setToPort(pt.getParticipant().getConnectionName(u.getFromComp().getId(), Connection.Type.IN));
                 }
-                //u.setToPort(pt.getParticipant().getConnectionName(u.getFromComp().getId(), Connection.Type.OUT));
-
-
-//                u.setToPort("para" + pt.getComponentName());
             }
         }
         for (ChoreographyTask ct : tasks) {
@@ -759,7 +737,6 @@ public class YaoqiangXMLParser {
                     }
                 }
 
-                //u.setToPort(ct.getIncoming());
             }
         }
         for (Gateway g : gateways) {
@@ -772,7 +749,7 @@ public class YaoqiangXMLParser {
                 ArrayList<Unification> us = findUnificationByFrom(unifications, g);
                 us.get(i).setFromPort(g.getOutgoings().get(i));
             }
-        }//TODO: considerar start -> gateway
+        }
         for (EndEvent ee : endEvents) {
             for (int i = 0; i < ee.getIncomings().size(); i++) {
                 ArrayList<Unification> us = findUnificationByTo(unifications, ee);
@@ -888,8 +865,6 @@ public class YaoqiangXMLParser {
             if (component == null) return null;
             //gets next component, which was the one where deadlock occurred
             connector = findConnectorFrom(component.getId()).get(0); //there will be only one connector
-
-            //TODO: or is it the next component?
             return connector.getTo();
         }
     }
@@ -951,7 +926,6 @@ public class YaoqiangXMLParser {
             int aux = findElement(c, targetId, i + 1);
             if (aux > longestSize) {
                 longestSize = aux;
-//                longestId = c.getId();
             }
         }
         return longestSize;
