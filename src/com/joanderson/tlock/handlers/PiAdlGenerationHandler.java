@@ -56,16 +56,10 @@ public class PiAdlGenerationHandler extends AbstractHandler {
 	
 	public static String savingPiADLPath;
 	private YaoqiangXMLParser parser;
-    //private YaoqiangXMLParser parser;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		
-//		MessageDialog.openInformation(
-//				window.getShell(),
-//				"Let's convert BPMN to Pi-ADL",
-//				"Hello, Eclipse whole (entire) world");
 
 		String bpmnFilePath = openFile(window.getWorkbench().getDisplay());
 		if (bpmnFilePath == null) {
