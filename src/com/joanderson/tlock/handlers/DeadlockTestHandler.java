@@ -23,6 +23,15 @@ public class DeadlockTestHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
+		if (!didAnyPreviousCodeGenerationOccourred()) {
+			MessageDialog.openError(
+					window.getShell(),
+					"Gere um arquivo pi-ADL primeiro",
+				    "Erro: necessário utilizar o menu \"Tlock -> Gerar pi-ADL\" para a geração de um arquivo pi-ADL antes de testar a ocorrência de deadlocks no modelo."
+			);
+			return null;
+		}
+		
 		try {
 			parser = YaoqiangXMLParser.getInstance();
 		} catch (ParserConfigurationException e) {
@@ -48,6 +57,10 @@ public class DeadlockTestHandler extends AbstractHandler {
 		return null;
 	}
 	
+	private boolean didAnyPreviousCodeGenerationOccourred() {
+		return YaoqiangXMLParser.hasInstance();
+	}
+
 	private String getFileNameFromPath(String path) {
         String[] s = path.split("/");
         return s[s.length-1].split("[.]")[0];

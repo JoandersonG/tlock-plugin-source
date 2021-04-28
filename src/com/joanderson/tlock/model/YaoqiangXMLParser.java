@@ -39,6 +39,10 @@ public class YaoqiangXMLParser {
     	}
     	return instance;
     }
+    
+    public static boolean hasInstance() {
+    	return instance != null;
+    }
 
     private YaoqiangXMLParser() throws ParserConfigurationException {
         participants = new ArrayList<>();
