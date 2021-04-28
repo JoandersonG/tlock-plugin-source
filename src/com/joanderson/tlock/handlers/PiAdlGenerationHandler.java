@@ -68,6 +68,9 @@ public class PiAdlGenerationHandler extends AbstractHandler {
 //				"Hello, Eclipse whole (entire) world");
 
 		String bpmnFilePath = openFile(window.getWorkbench().getDisplay());
+		if (bpmnFilePath == null) {
+			return null;
+		}
 		
 		String contentForPiAdlFile = getPiADLFromBPMN(bpmnFilePath,getFileNameFromPath(bpmnFilePath));
 		
