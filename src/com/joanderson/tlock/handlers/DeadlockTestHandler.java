@@ -4,6 +4,8 @@ import com.joanderson.tlock.deadlockTest.TestDeadlock;
 
 import com.joanderson.tlock.model.*;
 
+import jdk.jshell.Diag;
+
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -14,10 +16,14 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 
 public class DeadlockTestHandler extends AbstractHandler {
 	
 	private YaoqiangXMLParser parser; 
+	private ProgressBarInThread progressBar;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -32,6 +38,8 @@ public class DeadlockTestHandler extends AbstractHandler {
 			return null;
 		}
 		
+		 progressBar = new ProgressBarInThread();
+
 		try {
 			parser = YaoqiangXMLParser.getInstance();
 		} catch (ParserConfigurationException e) {
@@ -40,6 +48,7 @@ public class DeadlockTestHandler extends AbstractHandler {
 					window.getShell(),
 					"Um erro ocorreu",
 				    "Aconteceu um erro ao instanciar o parser para o Yaoqiang. Tente novamente");
+			progressBar.completeProgressBar();
 			return null;
 		}
 		
@@ -53,7 +62,7 @@ public class DeadlockTestHandler extends AbstractHandler {
 				window.getShell(),
 				"Teste de ocorrência de deadlocks",
 				result);
-
+		progressBar.completeProgressBar();
 		return null;
 	}
 	
@@ -68,15 +77,15 @@ public class DeadlockTestHandler extends AbstractHandler {
 	
     public String testDeadlock(String generatedFolderPath) {
         
-        //String workingDirectory = tfDeadlockPath.getText().substring(0, tfDeadlockPath.getText().lastIndexOf("/"));
-    	
         ArrayList<String> result = TestDeadlock.performDeadlockTest(generatedFolderPath);
         if (result.size() == 1 && result.get(0).equals("-1")) {
+        	progressBar.completeProgressBar();
             return "Erro: não foi possível obter retorno de teste de deadlock";
         }
         if (result.get(result.size() - 1).matches("deadlock.*")) {
             //test where deadlock occurred based on received list of Components and Connectors
             if (parser == null) {
+            	progressBar.completeProgressBar();
                 return result.get(result.size() - 1);
             } else {
                 result.remove(result.size() - 1);
@@ -84,25 +93,32 @@ public class DeadlockTestHandler extends AbstractHandler {
 
                 Component element = testExecuteResult(result);
                 if (element == null) {
+                	progressBar.completeProgressBar();
                     return "Nenhum deadlock foi detectado no modelo";
                 }
-                for (int i = 0; i < 15; i++) {
+            	progressBar.incrementProgressBar();
+                final int TEST_AMOUNT = 15; 
+                for (int i = 0; i < TEST_AMOUNT; i++) {
                     //tries again for making sure it's really a deadlock
+                	progressBar.incrementProgressBar();
                     result = TestDeadlock.performDeadlockTest(generatedFolderPath);
                     if (result.size() == 1 && result.get(0).equals("-1")) {
+                    	progressBar.completeProgressBar();
                         return "Erro: não foi possível obter retorno de teste de deadlock";
                     }
                     //removing not-an-id last element of result
                     result.remove(result.size() - 1);
                     element = testExecuteResult(result);
                     if (element == null) {
+                    	progressBar.completeProgressBar();
                         return "Nenhum deadlock foi detectado no modelo";
                     }
                 }
+                progressBar.completeProgressBar();
                 return "Um deadlock foi identificado no seguinte elemento: " + element.getOriginalName();
             }
         } else {
-            //no deadlock occurred, just say that to user
+        	progressBar.completeProgressBar();
             return "Nenhum deadlock foi detectado no modelo";
         }
     }
