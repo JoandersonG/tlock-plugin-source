@@ -8,6 +8,7 @@ public class Connector {
     private String fromId;
     private Component to;
     private String toId;
+    private boolean isTrocaDeMensagem;
     private static String idGenerator = "%connId_0";
 
 
@@ -16,6 +17,15 @@ public class Connector {
         this.id = id;
         this.from = from;
         this.to = to;
+        this.isTrocaDeMensagem = false;
+    }
+    
+    public Connector(String name, String id, Component from, Component to, boolean isTrocaDeMensagem) {
+        this.name = name;
+        this.id = id;
+        this.from = from;
+        this.to = to;
+        this.isTrocaDeMensagem = isTrocaDeMensagem;
     }
 
     public static String getValidId() {
@@ -99,6 +109,10 @@ public class Connector {
                 .append("\tbehavior is {...\n");
         return piADLcode.toString();
     }
+
+	public boolean isTrocaDeMensagem() {
+		return isTrocaDeMensagem;
+	}
 
 
 }

@@ -594,7 +594,8 @@ public class YaoqiangXMLParser {
                             "Conexao_" + connCont++,
                             Connector.getValidId(),
                             comp,
-                            pt
+                            pt,
+                            true
                     );
                     connectors.add(c);
                 } else {
@@ -608,7 +609,8 @@ public class YaoqiangXMLParser {
                     		"Conexao_" + connCont++,
                             Connector.getValidId(),
                             pt,
-                            comp
+                            comp,
+                            true
                     );
                     connectors.add(c);
                 }
@@ -672,11 +674,18 @@ public class YaoqiangXMLParser {
             s.append("\t\t\tand ").append(gateways.get(i).getInstanceName()).append(" is ").append(gateways.get(i).getComponentName()).append("()\n");
         }
         for (int i = 0; i < endEvents.size(); i++) {
-            endEvents.get(i).setInstanceName(i == 0? "f": "f" + (i+1));
+            endEvents.get(i).setInstanceName(i == 0? "fim": "fim" + (i+1));
             s.append("\t\t\tand ").append(endEvents.get(i).getInstanceName()).append(" is ").append(endEvents.get(i).getComponentName()).append("()\n");
         }
+        int indexIsTrocaMsg = 1;
+        int indexNotTrocaMsg = 1;
         for (int i = 0; i < connectors.size(); i++) {
-            connectors.get(i).setInstanceName(i == 0? "c": "c" + (i+1));
+        	Connector connector = connectors.get(i);
+        	if (connector.isTrocaDeMensagem()) {
+        		connector.setInstanceName("c" + indexIsTrocaMsg++);
+        	} else {
+        		connector.setInstanceName("f" + indexNotTrocaMsg++);
+        	}
             s.append("\t\t\tand ").append(connectors.get(i).getInstanceName()).append(" is ").append(connectors.get(i).getName()).append("()\n");
         }
         s.append("\t\t} where {\n");
