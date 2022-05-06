@@ -17,6 +17,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 
@@ -30,15 +32,16 @@ public class DeadlockTestHandler extends AbstractHandler {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
 		if (!didAnyPreviousCodeGenerationOccourred()) {
-			MessageDialog.openError(
-					window.getShell(),
-					"Gere um arquivo pi-ADL primeiro",
-				    "Erro: necessário utilizar o menu \"Tlock -> Gerar pi-ADL\" para a geração de um arquivo pi-ADL antes de testar a ocorrência de deadlocks no modelo."
-			);
+			if (!PiAdlGenerationHandler.cancelWasPressedInFileDialog()) {
+				MessageDialog.openError(
+						window.getShell(),
+						"Gere um arquivo pi-ADL primeiro",
+					    "Erro: necessário utilizar o menu \"Tlock -> Gerar pi-ADL\" para a geração de um arquivo pi-ADL antes de testar a ocorrência de deadlocks no modelo."
+				);	
+			}	
 			return null;
-		}
-		
-		 progressBar = new ProgressBarInThread();
+		}		 
+		progressBar = new ProgressBarInThread();
 
 		try {
 			parser = YaoqiangXMLParser.getInstance();

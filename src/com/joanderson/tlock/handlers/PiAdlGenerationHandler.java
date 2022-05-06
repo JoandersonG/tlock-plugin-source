@@ -55,14 +55,23 @@ import org.eclipse.swt.widgets.Text;
 public class PiAdlGenerationHandler extends AbstractHandler {
 	
 	public static String savingPiADLPath;
+	private static boolean wasPressedCancelInFileDialog; 
 	private YaoqiangXMLParser parser;
 
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		wasPressedCancelInFileDialog = false;
+		
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 
 		String bpmnFilePath = openFile(window.getWorkbench().getDisplay());
 		if (bpmnFilePath == null) {
+			wasPressedCancelInFileDialog = true;
+			MessageDialog.openError(
+					window.getShell(),
+					"Nenhum arquivo selecionado",
+				    "Não foi possível identificar nenhum arquivo selecionado. Por favor, reinicie a operação."
+			);
 			return null;
 		}
 		
@@ -85,6 +94,10 @@ public class PiAdlGenerationHandler extends AbstractHandler {
 		System.out.println("Current directory: " + ResourcesPlugin.getWorkspace().getRoot().getLocation().toString());
 
 		return null;
+	}
+	
+	public static boolean cancelWasPressedInFileDialog() {
+		return wasPressedCancelInFileDialog;
 	}
 	
 	private String getFileNameFromPath(String path) {
